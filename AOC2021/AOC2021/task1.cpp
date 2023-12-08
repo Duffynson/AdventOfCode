@@ -1,10 +1,10 @@
 #include "input.h"
-#include "task5.h"
+#include "task1.h"
 
-void Task5::Part1() {
+void Task1::Part1(){
 	std::cout << "Not done yet";
 }
 
-void Task5::Part2() {
+void Task1::Part2() {
 	std::cout << "Not done yet";
 }
