@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-	{ using namespace Task10;
+	{ using namespace Task11;
 	std::cout << "Part 1: ";
 	Part1();
 	std::cout << "\nPart 2: ";
