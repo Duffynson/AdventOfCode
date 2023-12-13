@@ -28,3 +28,23 @@ std::vector<std::vector<int64_t>> Utility::SplitLinesAsInt64_t(const std::vector
 	}
 	return input64_t;
 }
+
+std::string Utility::SplitStringByComma(std::string input) {
+	std::replace(input.begin(), input.end(), ',', ' ');
+	return input;
+}
+
+std::vector<int64_t> Utility::SplitStringAsInt64_t(std::string input) {
+	std::vector<int64_t> res;
+	int64_t tempNum;
+	std::stringstream iss(input);
+	while (iss >> tempNum) {
+		res.push_back(tempNum);
+	}
+	return res;
+}
+
+std::vector<int64_t> Utility::SplitStringByCommasAsInt64_t(std::string input) {
+	input = Utility::SplitStringByComma(input);
+	return Utility::SplitStringAsInt64_t(input);
+}
