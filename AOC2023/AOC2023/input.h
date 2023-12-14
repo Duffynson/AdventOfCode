@@ -7,4 +7,5 @@ namespace Utility{
 	std::string SplitStringByComma(std::string input);
 	std::vector<int64_t> SplitStringAsInt64_t(std::string input);
 	std::vector<int64_t> SplitStringByCommasAsInt64_t(std::string input);
+	std::vector<std::string> FlipStringInput(std::vector<std::string> input);
 }

@@ -48,3 +48,16 @@ std::vector<int64_t> Utility::SplitStringByCommasAsInt64_t(std::string input) {
 	input = Utility::SplitStringByComma(input);
 	return Utility::SplitStringAsInt64_t(input);
 }
+
+std::vector<std::string> Utility::FlipStringInput(std::vector<std::string> input) {
+	std::vector<std::string> flippedInput;
+	std::string tempString;
+	for (int i = 0; i < input[0].size(); i++) {
+		for (int x = 0; x < input.size(); x++) {
+			tempString.push_back(input[x][i]);
+		}
+		flippedInput.push_back(tempString);
+		tempString.clear();
+	}
+	return flippedInput;
+}
