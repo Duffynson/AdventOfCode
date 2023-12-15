@@ -1,8 +1,6 @@
 #include "input.h"
 #include "task14.h"
 
-const long long N = 4000000000;
-
 void Task14::Part1() {
 	std::vector<std::string> input = Utility::ReadAllLinesInFile("inputs/input14.txt");
 	input = Utility::FlipStringInput(input);

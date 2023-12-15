@@ -29,12 +29,13 @@ std::vector<std::vector<int64_t>> Utility::SplitLinesAsInt64_t(const std::vector
 	return input64_t;
 }
 
-std::string Utility::SplitStringByComma(std::string input) {
+std::string Utility::ReplaceStringCommaWithEmptySpace(std::string &input) {
 	std::replace(input.begin(), input.end(), ',', ' ');
+	input.push_back(' ');
 	return input;
 }
 
-std::vector<int64_t> Utility::SplitStringAsInt64_t(std::string input) {
+std::vector<int64_t> Utility::SplitStringAsInt64_t(std::string &input) {
 	std::vector<int64_t> res;
 	int64_t tempNum;
 	std::stringstream iss(input);
@@ -45,11 +46,11 @@ std::vector<int64_t> Utility::SplitStringAsInt64_t(std::string input) {
 }
 
 std::vector<int64_t> Utility::SplitStringByCommasAsInt64_t(std::string input) {
-	input = Utility::SplitStringByComma(input);
+	input = Utility::ReplaceStringCommaWithEmptySpace(input);
 	return Utility::SplitStringAsInt64_t(input);
 }
 
-std::vector<std::string> Utility::FlipStringInput(std::vector<std::string> input) {
+std::vector<std::string> Utility::FlipStringInput(std::vector<std::string> &input) {
 	std::vector<std::string> flippedInput;
 	std::string tempString;
 	for (int i = 0; i < input[0].size(); i++) {
@@ -60,4 +61,20 @@ std::vector<std::string> Utility::FlipStringInput(std::vector<std::string> input
 		tempString.clear();
 	}
 	return flippedInput;
+}
+
+std::vector<std::string> Utility::SplitStringByComma(std::string &input) {
+	input = Utility::ReplaceStringCommaWithEmptySpace(input);
+	std::vector<std::string> res;
+	std::string temp;
+	for (auto ch : input) {
+		if (ch != ' ') {
+			temp.push_back(ch);
+		}
+		else {
+			res.push_back(temp);
+			temp.clear();
+		}
+	}
+	return res;
 }
