@@ -88,15 +88,12 @@ std::vector<Direction> SplitBeam(Direction dir, char ch) {
 	return { dir };
 }
 
+size_t CountEnergized(Coords startCoords, Direction dir, std::vector<std::string>& input) {
 
-void Task16::Part1() {
-	std::vector<std::string> input = Utility::ReadAllLinesInFile("inputs/input16.txt");
-	int res = 0;
-	
 	std::vector<std::pair<Coords, Direction>> beams;
 	std::vector<Coords> beamLevels;
 	//beam going from top-left corner to the right
-	beams.push_back({ {-1,0},right });
+	beams.push_back({ startCoords,dir });
 	size_t idx = 0;
 	std::vector<Direction> split;
 	while (idx != beams.size()) {
@@ -126,16 +123,6 @@ void Task16::Part1() {
 						break;
 					}
 
-				/*	bool cycled = false;
-					for (auto beam : beams) {
-						if (beam.first.x == coordsN.x && beam.first.y == coordsN.y && dir == beam.second) {
-							cycled = true;
-							break;
-						}
-					}
-					if (!cycled && cycledFirst) {
-						dir = split[1];
-					}*/
 				}
 				else
 					dir = split[0];
@@ -143,13 +130,13 @@ void Task16::Part1() {
 			}
 
 			bool energized = false;
-			for(int i = 0; i <beamLevels.size();i++){
+			for (int i = 0; i < beamLevels.size(); i++) {
 				if (beamLevels[i].x == coordsN.x && beamLevels[i].y == coordsN.y) {
 					energized = true;
 					break;
 				}
 			}
-			if(!energized)
+			if (!energized)
 				beamLevels.push_back(coordsN);
 
 			coordsC = coordsN;
@@ -158,11 +145,48 @@ void Task16::Part1() {
 		}
 		idx++;
 	}
-	
-	res = beamLevels.size();
-	std::cout << res;
+
+	return beamLevels.size();
 }
 
+void Task16::Part1() {
+	std::vector<std::string> input = Utility::ReadAllLinesInFile("inputs/input16.txt");
+	std::cout << CountEnergized({ -1,0 }, right, input);
+}
+
+
 void Task16::Part2() {
-	std::cout << "Not done yet.";
+	std::vector<std::string> input = Utility::ReadAllLinesInFile("inputs/input16.txt");
+
+	size_t cols = input[0].size();
+	size_t rows = input.size();
+	size_t res = 0;
+	size_t temp = 0;
+	Direction dir = right;
+	for (int i = 0; i < rows; i++) {
+		temp = CountEnergized({ -1,i }, dir, input);
+		if (res < temp)
+			res = temp;
+	}
+	dir = left;
+	for (int i = 0; i < rows; i++) {
+		temp = CountEnergized({ (int)cols,i}, dir, input);
+		if (res < temp)
+			res = temp;
+	}
+	dir = down;
+	for (int i = 0; i < cols; i++) {
+		temp = CountEnergized({ i,-1 }, dir, input);
+		if (res < temp)
+			res = temp;
+	}
+	dir = up;
+	for (int i = 0; i < cols; i++) {
+		temp = CountEnergized({ i,(int)rows }, dir, input);
+		if (res < temp)
+			res = temp;
+	}
+
+	std::cout << res;
+	
 }
