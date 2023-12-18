@@ -1,8 +1,13 @@
 #include "input.h"
 #include "task17.h"
 
+struct Coords {
+	int x = 0, y = 0;
+};
+
 void Task17::Part1() {
-	std::cout << "Not done yet.";
+	Coords startCoords{};
+	std::cout << startCoords.x;
 }
 
 void Task17::Part2() {
