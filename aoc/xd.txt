@@ -1,0 +1,124 @@
+std::vector<std::string> input = Utility::ReadAllLinesInFile("inputs/input18.txt");
+
+int res = 0;
+int minRows = 0;
+int maxRows = 0;
+int maxCols = 0;
+int minCols = 0;
+int cols = 0;
+int rows = 0;
+int tempCols = 0;
+int tempRows = 0;
+char hor = 'x';
+char ver = 'x';
+int x = 0;
+int y = 0;
+
+for (std::string line : input) {
+	char dir = line[0];
+	int i = std::stoi(line.substr(1, line.size() - line.find('(')));
+	if (dir == 'R') {
+		tempCols += i;
+		if (ver == 'x')
+			ver = 'r';
+		if (tempCols > maxCols)
+			maxCols = tempCols;
+	}
+	else if (dir == 'L') {
+		tempCols -= i;
+		if (ver == 'x')
+			ver = 'l';
+		if (tempCols < minCols)
+			minCols = tempCols;
+	}
+	else if (dir == 'D') {
+		tempRows += i;
+		if (hor == 'x')
+			hor = 'd';
+		if (tempRows > maxRows)
+			maxRows = tempRows;
+	}
+	else {
+		if (hor == 'x')
+			hor = 'u';
+		tempRows -= i;
+		if (tempRows < minRows)
+			minRows = tempRows;
+	}
+}
+
+cols = abs(minCols)+ maxCols + 1;
+rows = abs(minRows)+ maxRows + 1;
+
+
+y = rows - maxRows -1;
+x = cols - maxCols -1;
+
+std::vector<std::string> digPlan;
+for (int i = 0; i < rows;i++) {
+	std::string temp;
+	for (int x = 0; x < cols; x++) {
+		temp.push_back('.');
+	}
+	digPlan.push_back(temp);
+}
+
+
+digPlan[y][x] = '#';
+for (std::string line : input) {
+	char dir = line[0];
+	int i = std::stoi(line.substr(1, line.size() - line.find('(')));
+	if (dir == 'R') {
+		for (int j = 0; j < i; j++) {
+			x++;
+			digPlan[y][x] = '#';
+		}
+	}
+	else if (dir == 'L') {
+		for (int j = 0; j < i; j++){
+			x--;
+			digPlan[y][x] = '#';
+		}
+	}
+	else if (dir == 'U') {
+		for (int j = 0; j < i; j++) {
+			y--;
+			digPlan[y][x] = '#';
+		}
+	}
+	else {
+		for (int j = 0; j < i; j++) {
+			y++;
+			digPlan[y][x] = '#';
+		}
+	}
+}
+
+for (std::string row : digPlan) {
+	bool inside = false;
+	bool seenDot = false;
+	for (int i = 0; i < row.size(); i++) {
+		if (row[i] == '#') {
+			res++;
+			if (!inside) {
+				inside = true;
+			}
+			else{
+				if (seenDot){
+					inside = false;
+					if (i < row.size() - 1)
+						if (row[i + 1] == '.')
+							inside = false;
+				}
+			}
+		}
+		if (row[i] == '.' && inside ) {
+			res++;
+			seenDot = true;	
+		}
+	}
+}
+
+std::cout << res;
+
+Consolas, 'Courier New', monospace
