@@ -1,6 +1,6 @@
 #include "day1.h"
 
-void Day1::Task1() {
+void Day1::Task1() const {
 	int result = 0;
 	auto lines = ReadAllLinesInFile("inputs/input1.txt");
 	std::vector<int> leftNumbers;
@@ -15,7 +15,7 @@ void Day1::Task1() {
 	std::cout << result << std::endl;
 }
 
-void Day1::Task2() {
+void Day1::Task2() const {
 	int result = 0;
 	auto lines = ReadAllLinesInFile("inputs/input1.txt");
 	std::vector<int> leftNumbers;

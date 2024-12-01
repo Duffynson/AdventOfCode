@@ -1,7 +1,17 @@
-#include "day1.h"
+#include "utils/timer.h"
+#include "dayIncludes.h"
+
+void runSolution(const Day& day) {
+	Timer::start();
+	day.Task1();
+	Timer::stop();
+	Timer::start();
+	day.Task2();
+	Timer::stop();
+	Timer::reset();
+}
 
 int main() {
-	Day1 day1;
-	day1.Task1();
-	day1.Task2();
+	Day1 day;
+	runSolution(day);
 }

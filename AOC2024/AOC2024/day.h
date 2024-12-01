@@ -3,7 +3,6 @@
 class Day {
 public:
 	Day(){}
-	virtual void Task1() = 0;
-	virtual void Task2() = 0;
-
+	virtual void Task1() const = 0;
+	virtual void Task2() const = 0;
 };

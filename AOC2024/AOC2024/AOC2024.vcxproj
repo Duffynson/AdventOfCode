@@ -129,11 +129,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="day.h" />
+    <ClInclude Include="dayIncludes.h" />
     <ClInclude Include="stdc++.h" />
     <ClInclude Include="utils\parser.h" />
+    <ClInclude Include="utils\timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="day.cpp" />
     <ClCompile Include="day1.cpp" />
     <ClCompile Include="day1.h" />
     <ClCompile Include="main.cpp" />
