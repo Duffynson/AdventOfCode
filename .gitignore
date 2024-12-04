@@ -1,6 +1,6 @@
 #Directories
 .vs/
 x64/
-.vcxproj
-.vcxproj.filters
-.vcxproj.user
+
+# Ignore .vcxproj files and their filters
+*.vcxproj*

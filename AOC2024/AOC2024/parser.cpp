@@ -19,7 +19,6 @@ void parseStringToVectors(const std::string& str, std::vector<int>& left, std::v
     std::istringstream stream(str);
     int first, second;
 
-    // Extract two integers, skipping any extra whitespace
     if (stream >> first >> second) {
         left.push_back(first);
         right.push_back(second);
@@ -33,4 +32,26 @@ void parseStringsToSeparateVectors(const std::vector<std::string>& strings, std:
     for (const auto& str : strings) {
         parseStringToVectors(str, left, right);
     }
+}
+
+std::vector<int> stringToVectorOfInts(const std::string& str) {
+    std::istringstream stream(str);
+    std::vector<int> numbers;
+    int number;
+
+    while (stream >> number) {
+        numbers.push_back(number);
+    }
+
+    return numbers;
+}
+
+std::vector<std::vector<int>> convertStringsToIntVectors(const std::vector<std::string>& strings) {
+    std::vector<std::vector<int>> result;
+
+    for (const auto& str : strings) {
+        result.push_back(stringToVectorOfInts(str));
+    }
+
+    return result;
 }
