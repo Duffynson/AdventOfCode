@@ -1,6 +1,8 @@
 #Directories
 .vs/
 x64/
+inputs/
 
 # Ignore .vcxproj files and their filters
 *.vcxproj*
+input.txt

@@ -2,7 +2,7 @@
 
 void Day1::Task1() const {
 	int result = 0;
-	auto lines = ReadAllLinesInFile("inputs/input1.txt");
+	auto lines = ReadAllLinesInFile("input.txt");
 	std::vector<int> leftNumbers;
 	std::vector<int> rightNumbers;
 	parseStringsToSeparateVectors(lines, leftNumbers, rightNumbers);
@@ -17,7 +17,7 @@ void Day1::Task1() const {
 
 void Day1::Task2() const {
 	int result = 0;
-	auto lines = ReadAllLinesInFile("inputs/input1.txt");
+	auto lines = ReadAllLinesInFile("input.txt");
 	std::vector<int> leftNumbers;
 	std::vector<int> rightNumbers;
 	parseStringsToSeparateVectors(lines, leftNumbers, rightNumbers);

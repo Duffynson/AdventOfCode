@@ -1,7 +1,7 @@
 #include "day2.h"
 
 void Day2::Task1() const {
-	auto input = ReadAllLinesInFile("inputs/input2.txt");
+	auto input = ReadAllLinesInFile("input.txt");
 	auto lines = convertStringsToIntVectors(input);
 	int result = 0;
 	bool ascendingOrDescending = false;
@@ -24,7 +24,7 @@ void Day2::Task1() const {
 }
 
 void Day2::Task2() const {
-	auto input = ReadAllLinesInFile("inputs/input2.txt");
+	auto input = ReadAllLinesInFile("input.txt");
 	auto lines = convertStringsToIntVectors(input);
 	int result = 0;
 	bool ascendingOrDescending = false;
