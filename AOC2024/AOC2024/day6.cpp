@@ -58,7 +58,6 @@ void Day6::Task2() const {
 	int result = 0;
 	auto input = ReadAllLinesInFile("input.txt");
 	auto path = getGuardPath(input);
-	//std::set<std::pair<int, int>> path = { {6,3}, {7,6}, {7,7}, {8,1}, {8,3}, {9,7} };
 	for (auto [x, y] : path) {
 		auto position = getStartPosition(input);
 		auto direction = directions.find(input[position.first][position.second])->second;
