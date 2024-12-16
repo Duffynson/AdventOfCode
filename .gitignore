@@ -4,5 +4,6 @@ x64/
 inputs/
 
 # Ignore .vcxproj files and their filters
-*.vcxproj*
+*.filters
+*.user
 input.txt
