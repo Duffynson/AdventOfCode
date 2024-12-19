@@ -30,14 +30,6 @@ ClawMachines parseClawMachines(const std::vector<std::string>& input) {
         currentGroup.emplace_back(x, y);
     }
 
-    if (currentGroup.size() == 3) {
-        clawMachines.emplace_back(
-            currentGroup[0],  
-            currentGroup[1],  
-            currentGroup[2]   
-        );
-    }
-
     return clawMachines;
 }
 
@@ -60,19 +52,19 @@ void Day13::Task1() const {
 }
 
 void Day13::Task2() const {
-    long long result = 0;
-    long long offset = 10000000000000;
+    int64_t result = 0;
+    int64_t offset = 10000000000000;
     auto input = ReadAllLinesInFile("input.txt");
     ClawMachines clawMachines = parseClawMachines(input);
     for (auto clawMachine : clawMachines) {
         auto [a1, a2] = std::get<0>(clawMachine);
         auto [b1, b2] = std::get<1>(clawMachine);
         auto [res1, res2] = std::get<2>(clawMachine);
-        long long offsetRes1 = res1 + offset;
-        long long offsetRes2 = res2 + offset;
-        long long det = a1 * b2 - a2 * b1;
-        long long a = std::abs((offsetRes1 * b2 - offsetRes2 * b1) / det);
-        long long b = std::abs((offsetRes1 * a2 - offsetRes2 * a1) / det);
+        int64_t offsetRes1 = res1 + offset;
+        int64_t offsetRes2 = res2 + offset;
+        int64_t det = a1 * b2 - a2 * b1;
+        int64_t a = std::abs((offsetRes1 * b2 - offsetRes2 * b1) / det);
+        int64_t b = std::abs((offsetRes1 * a2 - offsetRes2 * a1) / det);
         if (a1 * a + b1 * b == offsetRes1 && a2 * a + b2 * b == offsetRes2) {
             result += a * 3 + b;
         }
