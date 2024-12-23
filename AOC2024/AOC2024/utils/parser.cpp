@@ -187,3 +187,19 @@ std::vector<long long> stringToVectorOfLongs(const std::string& str) {
 
     return numbers;
 }
+
+
+std::vector<int> parseStringsToVector(const std::vector<std::string>& input) {
+    std::vector<int> result;
+    for (const auto& line : input) {
+        std::istringstream stream(line);
+        int number;
+        if (stream >> number) {
+            result.push_back(number);
+        }
+        else {
+            throw std::runtime_error("Invalid format: " + line);
+        }
+    }
+    return result;
+}

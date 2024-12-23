@@ -14,3 +14,4 @@ std::map<int, std::set<int>> createMap(const std::vector<std::string>& input, ch
 void processStrings(const std::vector<std::string>& input, std::vector<long long>& beforeColon, std::vector<std::vector<long long>>& afterColon);
 std::vector<std::vector<int>> parseDigits(const std::vector<std::string>& strings);
 std::vector<long long> stringToVectorOfLongs(const std::string& str);
+std::vector<int> parseStringsToVector(const std::vector<std::string>& input);
