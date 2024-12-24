@@ -17,3 +17,5 @@
 
 
 #include "day22.h"
+
+#include "day24.h"
