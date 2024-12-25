@@ -97,8 +97,8 @@ void Day15::Task2() const {
 	std::vector<std::string> grid;
 	std::vector<std::string> directions;
 	splitByEmptyLine(input, grid, directions);
-	auto [x, y] = findRobot(grid);
 	grid = widenGrid(grid);
+	auto [x, y] = findRobot(grid);
 
 	for (const auto& directionsLine : directions) {
 		for (const auto& direction : directionsLine) {
@@ -112,30 +112,133 @@ void Day15::Task2() const {
 				y = nextY;
 				continue;
 			}
-			else if (grid[nextX][nextY] == '[') {
-				std::set<std::pair<int, int>> pointsToCheck;
-				pointsToCheck.insert({ nextX + dirX, nextY + dirY });
-				pointsToCheck.insert({ nextX + dirX, nextY + dirY + 1});
-				bool free = true;
-				while (free) {
-					std::set<std::pair<int, int>> newPointsToCheck;
-				}
-				if (free) {
-					grid[x][y] = '.';
-					x = x + dirX;
-					y = y + dirY;
-					grid[x][y] = '@';
-					grid[nextX][nextY] = 'O';
-				}
-			}
-			else if (grid[nextX][nextY] == ']') {
-				std::set<std::pair<int, int>> pointsToCheck;
-				pointsToCheck.insert({ nextX + dirX, nextY + dirY });
-				pointsToCheck.insert({ nextX + dirX, nextY + dirY - 1 });
-				bool free = true;
-				while (free) {
+			if (dirX == 0) {
+				while (grid[nextX][nextY] == '[' || grid[nextX][nextY] == ']') {
 					nextX += dirX;
 					nextY += dirY;
+				}
+				if (grid[nextX][nextY] == '.') {
+					char previousChar = grid[x][y];
+					grid[x][y] = '.';
+					x += dirX;
+					y += dirY;
+					int tempX = x;
+					int tempY = y;
+					char nextChar = grid[x][y];
+					grid[x][y] = previousChar;
+					while (!(tempX == nextX && tempY == nextY)) {
+						previousChar = nextChar;
+						tempX += dirX;
+						tempY += dirY;
+						nextChar = grid[tempX][tempY];
+						grid[tempX][tempY] = previousChar;
+					}
+				}
+			}
+			else {
+				if (grid[nextX][nextY] == '[') {
+					std::map<std::pair<int, int>, char> blocksToMove;
+					std::set<std::pair<int, int>> lastLayer;
+					blocksToMove[{nextX, nextY}] = grid[nextX][nextY];
+					blocksToMove[{nextX, nextY + 1}] = grid[nextX][nextY + 1];
+					lastLayer.insert({ nextX, nextY });
+					lastLayer.insert({ nextX, nextY + 1 });
+					bool safeToMove = true;
+					while (safeToMove) {
+						std::set<std::pair<int, int>> nextLayer;
+						int countOfEmptySpaces = 0;
+						for (auto [blockX, blockY] : lastLayer) {
+							int nextBlockX = blockX + dirX;
+							int nextBlockY = blockY + dirY;
+							if (grid[nextBlockX][nextBlockY] == '.') {
+								countOfEmptySpaces++;
+							}
+							else if (grid[nextBlockX][nextBlockY] == '#') {
+								safeToMove = false;
+								break;
+							}
+							else if (grid[nextBlockX][nextBlockY] == '[') {
+								blocksToMove[{nextBlockX, nextBlockY}] = grid[nextBlockX][nextBlockY];
+								blocksToMove[{nextBlockX, nextBlockY + 1}] = grid[nextBlockX][nextBlockY + 1];
+								nextLayer.insert({ nextBlockX,nextBlockY });
+								nextLayer.insert({ nextBlockX,nextBlockY + 1 });
+							}
+							else {
+								blocksToMove[{nextBlockX, nextBlockY}] = grid[nextBlockX][nextBlockY];
+								blocksToMove[{nextBlockX, nextBlockY - 1}] = grid[nextBlockX][nextBlockY - 1];
+								nextLayer.insert({ nextBlockX,nextBlockY });
+								nextLayer.insert({ nextBlockX,nextBlockY - 1 });
+							}
+						}
+						if (countOfEmptySpaces == lastLayer.size()) {
+							//move all blocks
+							grid[x][y] = '.';
+							x = nextX;
+							y = nextY;
+							for (const auto& [coords, value] : blocksToMove) {
+								grid[coords.first][coords.second] = '.';
+							}
+							grid[x][y] = '@';
+							for (const auto& [coords, value] : blocksToMove) {
+								grid[coords.first + dirX][coords.second + dirY] = value;
+							}
+							break;
+						}
+						lastLayer = nextLayer;
+						nextLayer.clear();
+					}
+				}
+				else if (grid[nextX][nextY] == ']') {
+					std::map<std::pair<int, int>, char> blocksToMove;
+					std::set<std::pair<int, int>> lastLayer;
+					blocksToMove[{nextX, nextY}] = grid[nextX][nextY];
+					blocksToMove[{nextX, nextY - 1}] = grid[nextX][nextY - 1];
+					lastLayer.insert({ nextX, nextY });
+					lastLayer.insert({ nextX, nextY - 1 });
+					bool safeToMove = true;
+					while (safeToMove) {
+						std::set<std::pair<int, int>> nextLayer;
+						int countOfEmptySpaces = 0;
+						for (auto [blockX, blockY] : lastLayer) {
+							int nextBlockX = blockX + dirX;
+							int nextBlockY = blockY + dirY;
+							if (grid[nextBlockX][nextBlockY] == '.') {
+								countOfEmptySpaces++;
+							}
+							else if (grid[nextBlockX][nextBlockY] == '#') {
+								safeToMove = false;
+								break;
+							}
+							else if (grid[nextBlockX][nextBlockY] == '[') {
+								blocksToMove[{nextBlockX, nextBlockY}] = grid[nextBlockX][nextBlockY];
+								blocksToMove[{nextBlockX, nextBlockY + 1}] = grid[nextBlockX][nextBlockY + 1];
+								nextLayer.insert({ nextBlockX,nextBlockY });
+								nextLayer.insert({ nextBlockX,nextBlockY + 1 });
+							}
+							else {
+								blocksToMove[{nextBlockX, nextBlockY}] = grid[nextBlockX][nextBlockY];
+								blocksToMove[{nextBlockX, nextBlockY - 1}] = grid[nextBlockX][nextBlockY - 1];
+								nextLayer.insert({ nextBlockX,nextBlockY });
+								nextLayer.insert({ nextBlockX,nextBlockY - 1 });
+							}
+						}
+						if (countOfEmptySpaces == lastLayer.size()) {
+							//move all blocks
+							grid[x][y] = '.';
+							x = nextX;
+							y = nextY;
+							for (const auto& [coords, value] : blocksToMove) {
+								grid[coords.first][coords.second] = '.';
+							}
+							grid[x][y] = '@';
+							for (const auto& [coords, value] : blocksToMove) {
+								grid[coords.first + dirX][coords.second + dirY] = value;
+							}
+							break;
+						}
+						lastLayer = nextLayer;
+						nextLayer.clear();
+					}
 				}
 			}
 		}
