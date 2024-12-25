@@ -88,6 +88,21 @@ void splitByEmptyLine(const std::vector<std::string>& input, std::vector<std::st
     }
 }
 
+std::vector<std::vector<std::string>> splitByEmptyLines(const std::vector<std::string>& input) {
+    std::vector<std::vector<std::string>> result;
+    std::vector<std::string> part;
+    for (const auto& line : input) {
+        if (line.empty()) {
+            result.push_back(part);
+            part.clear();
+            continue;
+        }
+        part.push_back(line);
+    }
+    result.push_back(part);
+    return result;
+}
+
 std::vector<std::pair<int, int>> parseToIntPairs(const std::vector<std::string>& input, char delimiter) {
     std::vector<std::pair<int, int>> result;
 

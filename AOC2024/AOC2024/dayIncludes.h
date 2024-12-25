@@ -20,3 +20,4 @@
 #include "day22.h"
 
 #include "day24.h"
+#include "day25.h"

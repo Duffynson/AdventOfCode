@@ -8,6 +8,7 @@ void parseStringsToSeparateVectors(const std::vector<std::string>& strings, std:
 std::vector<int> stringToVectorOfInts(const std::string& str);
 std::vector<std::vector<int>> convertStringsToIntVectors(const std::vector<std::string>& strings);
 void splitByEmptyLine(const std::vector<std::string>& input, std::vector<std::string>& firstPart, std::vector<std::string>& secondPart);
+std::vector<std::vector<std::string>> splitByEmptyLines(const std::vector<std::string>& input);
 std::vector<std::pair<int, int>> parseToIntPairs(const std::vector<std::string>& input, char delimiter);
 std::vector<std::vector<int>> parseToIntVectors(const std::vector<std::string>& input);
 std::map<int, std::set<int>> createMap(const std::vector<std::string>& input, char delimeter);
