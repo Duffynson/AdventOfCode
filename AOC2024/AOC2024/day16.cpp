@@ -75,6 +75,7 @@ void Day16::Task2() const {
 	std::pair<int, int> end;
 	std::set<std::pair<int, int>> unvisitedNodes;
 	std::map<std::pair<int, int>, int> nodeValues;
+	std::map<std::pair<int, int>, std::set<std::pair<int,int>>> previousNodes;
 
 	for (int i = 0; i < grid.size(); i++) {
 		for (int j = 0; j < grid[i].size(); j++) {
@@ -83,6 +84,7 @@ void Day16::Task2() const {
 			}
 			unvisitedNodes.insert({ i,j });
 			nodeValues[{i, j}] = INT_MAX;
+			previousNodes[{i, j}]; 
 			if (grid[i][j] == 'S') {
 				start = { i,j };
 				nodeValues[{i, j}] = 0;
@@ -94,7 +96,6 @@ void Day16::Task2() const {
 	}
 
 	std::map<std::pair<int, int>, std::pair<int, int>> nodeDirections;
-	std::set<std::pair<std::pair<int, int>, std::pair<int, int>>> previousNodes;
 	nodeDirections[start] = { 0,1 };
 	while (!unvisitedNodes.empty()) {
 		std::pair<int, int> xy;
@@ -106,14 +107,16 @@ void Day16::Task2() const {
 			}
 		}
 		for (const auto& [dirX, dirY] : directions) {
-			int nextX = xy.first + dirX;
-			int nextY = xy.second + dirY;
-			if (unvisitedNodes.find({ nextX,nextY }) == unvisitedNodes.end()) {
+			auto previousDirection = nodeDirections[xy];
+			if (previousDirection.first == -dirX && previousDirection.second == -dirY) {
 				continue;
 			}
+			int nextX = xy.first + dirX;
+			int nextY = xy.second + dirY;
 			if (grid[nextX][nextY] != '#') {
-				auto previousDirection = nodeDirections[xy];
-				previousNodes.insert({ xy,{nextX,nextY} });
+				auto xd = previousNodes[{nextX, nextY}];
+				xd.insert({ xy });
+				previousNodes[{nextX, nextY}] = xd;
 				if (previousDirection.first == dirX && previousDirection.second == dirY) {
 					int temp = nodeValues[xy] + 1;
 					if (nodeValues[{nextX, nextY}] > temp) {
@@ -133,11 +136,36 @@ void Day16::Task2() const {
 		unvisitedNodes.erase(xy);
 	}
 	
-	std::pair<int, int> current = end;
-	while (current != end) {
-		for (const auto& [dirX, dirY] : directions) {
-			std::pair<int,int> next = { current.first + dirX, current.second + dirY };
+	std::set<std::pair<int, int>> previous = previousNodes[end];
+	std::set<std::pair<int, int>> copy;
+	for (const auto& point : previous) {
+		if (nodeValues[point] < nodeValues[end]) {
+			copy.insert(point);
 		}
 	}
+	previous = copy;
+	std::set<std::pair<int, int>> path = { end };
+	while (!previous.empty()) {
+		std::set<std::pair<int, int>> temp;
+		for (const auto& next : previous) {
+			if (path.find(next) == path.end()) {
+				temp.insert(previousNodes[next].begin(),previousNodes[next].end());
+			}
+			path.insert(next);
+		}
+		previous = temp;
+	}
+
+	for (const auto& coords : path) {
+		grid[coords.first][coords.second] = 'O';
+	}
+
+	for (const auto& line : grid) {
+		for (const auto& point : line) {
+			std::cout << point;
+		}
+		std::cout << std::endl;
+	}
+	result = path.size();
 	std::cout << result << std::endl;
 }
