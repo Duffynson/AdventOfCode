@@ -1,4 +1,6 @@
 #include "day16.h"
+#define GREEN "\033[32m"
+#define RESET "\033[0m"
 
 const std::vector<std::pair<int, int>> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
@@ -150,8 +152,8 @@ void Day16::Task2() const {
 		for (const auto& next : previous) {
 			if (path.find(next) == path.end()) {
 				temp.insert(previousNodes[next].begin(),previousNodes[next].end());
+				path.insert(next);
 			}
-			path.insert(next);
 		}
 		previous = temp;
 	}
@@ -162,6 +164,10 @@ void Day16::Task2() const {
 
 	for (const auto& line : grid) {
 		for (const auto& point : line) {
+			if (point == 'O') {
+				std::cout << GREEN << point << RESET;
+				continue;
+			}
 			std::cout << point;
 		}
 		std::cout << std::endl;
