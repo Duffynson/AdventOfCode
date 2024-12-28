@@ -3,7 +3,7 @@
 
 void runSolution(const Day& day) {
 	Timer::start();
-	//day.Task1();
+	day.Task1();
 	Timer::stop();
 	Timer::start();
 	day.Task2();

@@ -79,8 +79,8 @@ void Day16::Task2() const {
 	int cols = grid[0].size();
 
 	int sr, sc;
-	for (int r = 0; r < rows; ++r) {
-		for (int c = 0; c < cols; ++c) {
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < cols; c++) {
 			if (grid[r][c] == 'S') {
 				sr = r;
 				sc = c;
@@ -125,8 +125,9 @@ void Day16::Task2() const {
 		for (const auto& move : moves) {
 			auto [newCost, nr, nc, ndr, ndc] = move;
 
-			if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || grid[nr][nc] == '#')
+			if (nr < 0 || nr >= rows || nc < 0 || nc >= cols || grid[nr][nc] == '#') {
 				continue;
+			}
 
 			std::tuple<int, int, int, int> newState = { nr, nc, ndr, ndc };
 			int lowest = lowestCost.count(newState) ? lowestCost[newState] : INT_MAX;
@@ -143,8 +144,8 @@ void Day16::Task2() const {
 		}
 	}
 
-	std::deque<std::tuple<int, int, int, int>> states(endStates.begin(), endStates.end());
-	std::set<std::tuple<int, int, int, int>> seen(endStates.begin(), endStates.end());
+	std::deque<Node> states(endStates.begin(), endStates.end());
+	std::set<Node> seen(endStates.begin(), endStates.end());
 
 	while (!states.empty()) {
 		auto key = states.front();
