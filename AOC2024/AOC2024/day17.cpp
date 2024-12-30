@@ -1,4 +1,5 @@
 #include "day17.h"
+std::string getProgramOutput(std::map<char, int>& registers, std::vector<int>& instructions, int value);
 
 std::map<char, int> parseRegisterStrings(const std::vector<std::string>& input) {
     std::map<char, int> registerMap;
@@ -103,13 +104,20 @@ void Day17::Task2() const {
     splitByEmptyLine(input, firstPart, secondPart);
     auto registers = parseRegisterStrings(firstPart);
     auto instructions = stringToVector(secondPart[0]);
-    for (int i = 0; i < 8; i++) {
+    int iterations = (int)instructions.size();
+    std::vector<std::vector<int>> numbers;
+    numbers.resize(iterations);
+    for (int i = 0; i < iterations; i++) {
+        std::string desiredOutput = secondPart[0].substr(secondPart[0].size() - ((i + 1) * 2) + 1, secondPart[0].size());
+        for (int x = 0; x < 8; x++) {
+            
+        }
         std::string output = getProgramOutput(registers, instructions, i);
-
+        std::cout << i << " : " << output << std::endl;
     }
 }
 
-std::string getProgramOutput(std::map<char, int> registers, std::vector<int> instructions, int value) {
+std::string getProgramOutput(std::map<char, int>& registers, std::vector<int>& instructions, int value) {
     std::string programResult;
     char A = 'A', B = 'B', C = 'C';
     int idx = 0;
