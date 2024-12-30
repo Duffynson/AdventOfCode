@@ -96,5 +96,64 @@ void Day17::Task1() const {
 }
 
 void Day17::Task2() const {
+    std::string result;
+    auto input = ReadAllLinesInFile("input.txt");
+    std::vector<std::string> firstPart;
+    std::vector<std::string> secondPart;
+    splitByEmptyLine(input, firstPart, secondPart);
+    auto registers = parseRegisterStrings(firstPart);
+    auto instructions = stringToVector(secondPart[0]);
+    for (int i = 0; i < 8; i++) {
+        std::string output = getProgramOutput(registers, instructions, i);
 
+    }
+}
+
+std::string getProgramOutput(std::map<char, int> registers, std::vector<int> instructions, int value) {
+    std::string programResult;
+    char A = 'A', B = 'B', C = 'C';
+    int idx = 0;
+    registers[A] = value;
+    while (idx < instructions.size()) {
+        bool jump = false;
+        int opcode = instructions[idx];
+        int operand = instructions[idx + 1];
+        int comboOperand = operand > 3 ? registers[comboOperands[operand]] : comboOperands[operand] - '0';
+        switch (opcode) {
+        case 0:
+            registers[A] = adv(registers[A], comboOperand);
+            break;
+        case 1:
+            registers[B] = registers[B] ^ operand;
+            break;
+        case 2:
+            registers[B] = comboOperand % 8;
+            break;
+        case 3:
+            if (registers[A] == 0) {
+                break;
+            }
+            idx = operand;
+            jump = true;
+            break;
+        case 4:
+            registers[B] = registers[B] ^ registers[C];
+            break;
+        case 5:
+            programResult += std::to_string(comboOperand % 8);
+            programResult += ',';
+            break;
+        case 6:
+            registers[B] = adv(registers[A], comboOperand);
+            break;
+        case 7:
+            registers[C] = adv(registers[A], comboOperand);
+            break;
+        }
+        if (!jump) {
+            idx += 2;
+        }
+    }
+    programResult = programResult.substr(0, programResult.size() - 1);
+    return programResult;
 }
