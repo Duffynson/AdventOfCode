@@ -1,6 +1,5 @@
 #pragma once
 #include "day.h"
-#include "utils/parser.h"
 
 class Day10 : public Day {
 public:

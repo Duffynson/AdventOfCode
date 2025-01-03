@@ -90,8 +90,13 @@ std::vector<int64_t> stringToVector(const std::string& input) {
     return result;
 }
 
+void shiftAllNumbers(std::vector<int64_t>& numbers) {
+    for (int64_t i = 0; i < numbers.size(); i++) {
+        numbers[i] = numbers[i] << 3;
+    }
+}
+
 void Day17::Task1() const {
-	auto input = ReadAllLinesInFile("input.txt");
 	std::vector<std::string> firstPart;
 	std::vector<std::string> secondPart;
 	splitByEmptyLine(input, firstPart, secondPart);
@@ -102,43 +107,8 @@ void Day17::Task1() const {
     std::cout << result << std::endl;
 }
 
-void generateCombinations(const std::vector<std::set<int64_t>>& tree,
-    int64_t level, std::vector<int64_t>& currentCombination,
-    std::vector<std::vector<int64_t>>& resultCombinations) {
-    if (level == tree.size() || tree[level].empty()) {
-        resultCombinations.push_back(currentCombination);
-        return;
-    }
-
-    for (int64_t node : tree[level]) {
-        currentCombination.push_back(node);
-        generateCombinations(tree, level + 1, currentCombination, resultCombinations);
-        currentCombination.pop_back(); 
-    }
-}
-
-std::vector<int64_t> calculateEachCombination(std::vector<std::vector<int64_t>>& combinations) {
-    std::vector<int64_t> result;
-    for (const auto& combination : combinations) {
-        int64_t combinationResult = 0;
-        for (int64_t i : combination) {
-            combinationResult += i;
-        }
-        result.push_back(combinationResult);
-    }
-    return result;
-}
-
-void shiftAllNumbers(std::vector<int64_t>& numbers) {
-    for (int64_t i = 0; i < numbers.size(); i++) {
-        numbers[i] = numbers[i] << 3;
-    }
-}
-
-
 void Day17::Task2() const {
     std::string result;
-    auto input = ReadAllLinesInFile("input.txt");
     std::vector<std::string> firstPart;
     std::vector<std::string> secondPart;
     splitByEmptyLine(input, firstPart, secondPart);
