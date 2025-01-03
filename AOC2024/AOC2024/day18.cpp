@@ -54,8 +54,7 @@ void Day18::Task2() const {
 	std::pair<int,int> result;
 	int gridSize = 71;
 	int safeBytes = 1024;
-	int endIndex = gridSize - 1;
-	int rows = gridSize, cols = gridSize;
+	const int rows = gridSize, cols = gridSize, endIndex = gridSize - 1;
 	std::vector<std::string> grid(gridSize, std::string(gridSize, '.'));
 	auto positions = parseToIntPairs(input, ',');
 	for (int i = 0; i < safeBytes; i++) {
