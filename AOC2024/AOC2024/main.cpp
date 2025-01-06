@@ -12,6 +12,6 @@ void runSolution(const Day& day) {
 }
 
 int main() {
-	Day20 day;
+	Day21 day;
 	runSolution(day);
 }
