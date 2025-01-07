@@ -122,13 +122,36 @@ void populateKeypadMap(PadPaths& keypadPaths, const Pad& keypad) {
 	}
 }
 
+std::string processInstructions(PadPaths& padPaths, std::string line) {
+	std::string result;
+	char start = 'A';
+	for (const auto& key : line) {
+		result += padPaths[{start, key}];
+		result += 'A';
+		start = key;
+	}
+	return result;
+}
+
 void Day21::Task1() const {
 	int result = 0;
 	PadPaths numpadPaths;
 	PadPaths keypadPaths;
 	populateNumpadMap(numpadPaths, numpad);
 	populateKeypadMap(keypadPaths, keypad);
-
+	for (const auto& line : input) {
+		std::string numpadControls = processInstructions(numpadPaths, line);
+		std::string firstKeypadControls = processInstructions(keypadPaths, numpadControls);
+		std::string humanKeypad = processInstructions(keypadPaths, firstKeypadControls);
+		std::cout << humanKeypad << std::endl;
+		std::cout << firstKeypadControls<< std::endl;
+		std::cout << numpadControls << std::endl;
+		std::cout << line << std::endl;
+		std::string lineString = line;
+		lineString.resize(lineString.size() - 1);
+		int value = std::stoi(lineString);
+		result += (int)humanKeypad.size() * value;
+	}
 	std::cout << result << std::endl;
 }
 
